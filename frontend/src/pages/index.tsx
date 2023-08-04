@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Head from "next/head";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import ItemSelection from "./ItemSelection";
 import InitialSurvey from "./InitialSurvey";
 import BodyMeasure from "./BodyMeasure";
@@ -23,7 +26,7 @@ export default function Home() {
       <main>
         {
           showInitalSurvey &&
-            <InitialSurvey surveyFinished={(data: { gender: SetStateAction<string>; clothingType: SetStateAction<string>; }) => {
+            <InitialSurvey surveyFinished={(data:any) => {
               setGender(data.gender);
               setClothingType(data.clothingType);
               setShowInitialSurvey(false);

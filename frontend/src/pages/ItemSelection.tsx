@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
 import {useEffect, useState} from "react";
 import {colorregex} from "./constants"; 
 import mockData from "./mockData";
 
 export default function ItemSelection ({selectionFinished, gender, clothingType}:any) {
-  const [items, setItems] = useState<any>(mockData);
+  const [items, setItems] = useState(mockData);
 
   useEffect(() => {
     // console.log(gender);
@@ -35,17 +40,6 @@ export default function ItemSelection ({selectionFinished, gender, clothingType}
     //   setItems(response.data);
     // });
   }, []);
-
-  // collect attributes of item
-  const collectAttributes = (url:string) => {
-    let attributes:string[] = [];
-    // add colors
-    getColorChoices(url).forEach((item:string) => {
-      attributes.push(item); 
-    });
-
-    return attributes;
-  };
 
   // regex for color identification
   const getColorChoices = (text:string) => {

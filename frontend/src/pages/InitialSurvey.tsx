@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {useState} from "react";
 
-export default function InitialSurvey ({surveyFinished}:any) {
+export default function InitialSurvey (surveyFinished:any) {
   const [gender, setGender] = useState("Men");
   const [clothingType, setClothingType] = useState("Shirts & Tops");
   return (
