@@ -32,14 +32,14 @@ export default function Home() {
         }
         {
           showBodyMeasure &&
-            <BodyMeasure measureFinished={(data:any) => {
+            <BodyMeasure measureFinished={() => {
               setShowBodyMeasure(false);
               setShowItemSelection(true);
             }}/>
         }
         {
           showItemSelection &&
-            <ItemSelection selectionFinished={(data:any) => {
+            <ItemSelection selectionFinished={() => {
               setShowItemSelection(false);
               setShowFinalResults(true);
  
