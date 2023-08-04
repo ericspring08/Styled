@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import ItemSelection from "./ItemSelection";
 import InitialSurvey from "./InitialSurvey";
 import BodyMeasure from "./BodyMeasure";
@@ -23,7 +23,7 @@ export default function Home() {
       <main>
         {
           showInitalSurvey &&
-            <InitialSurvey surveyFinished={(data:any) => {
+            <InitialSurvey surveyFinished={(data: { gender: SetStateAction<string>; clothingType: SetStateAction<string>; }) => {
               setGender(data.gender);
               setClothingType(data.clothingType);
               setShowInitialSurvey(false);
