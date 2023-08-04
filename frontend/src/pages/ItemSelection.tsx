@@ -4,8 +4,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import {useEffect, useState} from "react";
-import {colorregex} from "./constants"; 
-import mockData from "./mockData";
+import {colorregex} from "./_constants"; 
+import mockData from "./_mockData";
 
 export default function ItemSelection ({selectionFinished, gender, clothingType}:any) {
   const [items, setItems] = useState(mockData);
