@@ -4,12 +4,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Webcam from "react-webcam";
-import {useRef, useState, useCallback} from "react";
+import {useRef, useState} from "react";
 
 export default function BodyMeasure({measureFinished}:any) {
   const webCamRef = useRef<Webcam|null>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
-  const [displayNum, setDisplayNum] = useState<number>(5);
   const [circles, setCircles] = useState<any[]>([]);
 
   const capture = () => {
@@ -65,6 +64,7 @@ export default function BodyMeasure({measureFinished}:any) {
       <button onClick={capture} className="btn btn-primary">Take Photo</button>
       {imgSrc && (
         <img src={imgSrc} alt="User" onClick={(event) => {
+          event.preventDefault();
           addCircle(event);
         }} />
       )}

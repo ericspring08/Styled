@@ -9,21 +9,21 @@ import {useEffect, useState} from "react";
 import {getDocs, collection} from "firebase/firestore";
 import { db } from "../utils/firestore";
 
-export default function ItemSelection ({selectionFinished}:any) {
+export default function ItemSelection ({selectionFinished, gender}:any) {
   const [items, setItems] = useState<any>([]);
 
   // inital fetch of all items
   useEffect(() => {
     // check if already in local storage
-    if (localStorage.getItem("items")) {
+    if (localStorage.getItem(gender + "items")) {
       console.log("items already in local storage");
-      setItems(JSON.parse(localStorage.getItem("items") ?? "{}"));
+      setItems(JSON.parse(localStorage.getItem(gender + "items") ?? "{}"));
       return;
     } 
     console.log("fetching items from firestore");
-    getDocs(collection(db, "mens")).then((querySnapshot) => {
+    getDocs(collection(db, gender)).then((querySnapshot) => {
       // store in local storage
-      localStorage.setItem("items", JSON.stringify(querySnapshot.docs.map((doc) => doc.data())));
+      localStorage.setItem(gender + "items", JSON.stringify(querySnapshot.docs.map((doc) => doc.data())));
       querySnapshot.forEach((doc) => {
         setItems((prevState:any) => [...prevState, doc.data()]);
       });
@@ -78,7 +78,7 @@ export default function ItemSelection ({selectionFinished}:any) {
                       {
                         item.attributes &&
                           item.attributes.map((item:any, index:number) =>
-                            <div key = {index} className="badge badge-neutral mr-1 mb-1">{item}</div>
+                            <div key = {index} className="badge badge-primary mr-1 mb-1">{item}</div>
                           )
                       }
                     </div>

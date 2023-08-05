@@ -3,20 +3,20 @@
 import {useState} from "react";
 
 export default function InitialSurvey ({surveyFinished}:any) {
-  const [gender, setGender] = useState("Men");
+  const [gender, setGender] = useState("mens");
   return (
     <>
       <main className="flex flex-col justify-center items-center h-screen w-screen">
         <h1 className="text-6xl">Step 1: Initial Survey</h1>
         <h1 className="text-4xl">What is your Gender?</h1> 
         <select className="select select-primary w-full max-w-xs" onChange={(e) => {
+          e.preventDefault();
           setGender(e.target.value);
         }}>
-          <option value="Man">Male</option>
-          <option value="Women">Female</option>
+          <option value="mens">Men</option>
+          <option value="womens">Women</option>
         </select>
         <button onClick={() => {
-          console.log(gender);
           surveyFinished({
               gender: gender,
           })

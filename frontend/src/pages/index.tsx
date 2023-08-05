@@ -9,7 +9,7 @@ import BodyMeasure from "./BodyMeasure";
 import ClothingResults from "./ClothingResults"; 
 
 export default function Home() {
-  const [gender, setGender] = useState("Men");
+  const [gender, setGender] = useState("mens");
   const [showInitalSurvey, setShowInitialSurvey] = useState(true);
   const [showItemSelection, setShowItemSelection] = useState(false);
   const [showBodyMeasure, setShowBodyMeasure] = useState(false);
