@@ -80,49 +80,57 @@ export default function ItemSelection({ selectionFinished, gender }: any) {
     <>
       {
         loading ? <Loading /> :
-          <>
-            <h1 className="text-6xl m-10 text-center">Pick the Styles You Like!</h1>
-            <div className="flex flex-wrap justify-center">
-              {
-                items &&
-                items.map((item: any, index: number) =>
-                  <div key={index} className="card w-96 bg-base-100 shadow-xl m-5 hover:opacity-50"
-                    onClick={() => {
-                      generateNew(index);
-                    }}
-                  >
-                    <figure>
-                      <SquareLoader 
-                        color={`hsl(var(--p))`}
-                        loading={!imgload}
-                        size={50}
-                      />
-                      <img src={item.imageUrl} className={imgload ? "" : "hidden"} onLoad={() => {
-                        setImgload(true)
-                      }} alt="Shoes" />
-                    </figure>
-                    <div className="card-body">
-                      <h2 className="card-title">{item.title}</h2>
-                      <p>{item.brand}</p>
-                      <div className="flex flex-row flex-wrap">
-                        {
-                          item.attributes &&
-                          item.attributes.map((item: any, index: number) =>
-                            <div key={index} className="badge badge-primary mr-1 mb-1">{item}</div>
-                          )
-                        }
+          <div className="flex flex-col items-center">
+            <ul className="steps sticky z-[90] top-10 items-center">
+              <li className="step step-primary">Inital Survey</li>
+              <li className="step step-primary">Body Measurements</li>
+              <li className="step step-primary">Clothing Selection</li>
+              <li className="step">Final Selection</li>
+            </ul>
+            <div className="mt-10">
+              <h1 className="text-6xl m-10">Pick the Styles You Like!</h1>
+              <div className="flex flex-wrap justify-center">
+                {
+                  items &&
+                  items.map((item: any, index: number) =>
+                    <div key={index} className="card w-96 bg-base-100 shadow-xl m-5 hover:opacity-50"
+                      onClick={() => {
+                        generateNew(index);
+                      }}
+                    >
+                      <figure>
+                        <SquareLoader
+                          color={`hsl(var(--p))`}
+                          loading={!imgload}
+                          size={50}
+                        />
+                        <img src={item.imageUrl} className={imgload ? "" : "hidden"} onLoad={() => {
+                          setImgload(true)
+                        }} alt="Shoes" />
+                      </figure>
+                      <div className="card-body">
+                        <h2 className="card-title">{item.title}</h2>
+                        <p>{item.brand}</p>
+                        <div className="flex flex-row flex-wrap">
+                          {
+                            item.attributes &&
+                            item.attributes.map((item: any, index: number) =>
+                              <div key={index} className="badge badge-primary mr-1 mb-1">{item}</div>
+                            )
+                          }
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              }
+                  )
+                }
+              </div>
+              <button onClick={() => {
+                selectionFinished({
+                  items: items.slice(0, 100)
+                });
+              }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
             </div>
-            <button onClick={() => {
-              selectionFinished({
-                items: items.slice(0, 100)
-              });
-            }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
-          </>
+          </div>
       }
     </>
   )

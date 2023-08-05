@@ -8,6 +8,12 @@ export default function InitialSurvey ({surveyFinished}:any) {
   return (
     <>
       <main className="flex flex-col items-center justify-center h-screen w-screen">
+      <ul className="steps fixed z-[90] top-10 items-center">
+          <li className="step step-primary">Inital Survey</li>
+          <li className="step">Body Measurements</li>
+          <li className="step">Clothing Selection</li>
+          <li className="step">Final Selection</li>
+        </ul>
         <h1 className="text-6xl m-20">What is your Gender?</h1> 
         <div className="flex flex-row items-center">
           <select className="select select-primary select-lg w-full max-w-xs" onChange={(e) => {
@@ -18,12 +24,6 @@ export default function InitialSurvey ({surveyFinished}:any) {
             <option value="womens">Women</option>
           </select>
         </div>
-        <ul className="steps fixed z-90 top-10 item-center">
-          <li className="step step-primary">Inital Survey</li>
-          <li className="step">Body Measurements</li>
-          <li className="step">Clothing Selection</li>
-          <li className="step">Final Selection</li>
-        </ul>
         
         <button onClick={() => {
           surveyFinished({
