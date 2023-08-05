@@ -1,54 +1,53 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import {useEffect, useState} from "react";
-import {colorregex} from "../utils/_constants"; 
-import mockData from "../utils/_mockData";
+import {getDocs, collection} from "firebase/firestore";
+import { db } from "../utils/firestore";
 
-export default function ItemSelection ({selectionFinished, gender, clothingType}:any) {
-  const [items, setItems] = useState(mockData);
+export default function ItemSelection ({selectionFinished}:any) {
+  const [items, setItems] = useState<any>([]);
 
+  // inital fetch of all items
   useEffect(() => {
-    // console.log(gender);
-    // axios.post(
-    //   "https://zappos1.p.rapidapi.com/products/list?page=1&limit=100&sort=relevance/desc",
-    //   [
-    //     {
-    //       "facetField": "zc1",
-    //       "values": ["Clothing"]
-    //     },
-    //     {
-    //       "facetField": "zc2",
-    //       "values": [
-    //         clothingType
-    //       ]
-    //     },
-    //     {
-    //       "facetField": "txAttrFacet_Gender",
-    //       "values": [gender]
-    //     }
-    //   ],
-    //   {headers: {
-    //     "content-type": "application/json",
-    //     "X-RapidAPI-Key": "6ef4ad0a16msh1fe61cc2f95c0fcp19ce78jsnc57caec7e8c2",
-    //     "X-RapidAPI-Host": "zappos1.p.rapidapi.com"
-    //   }}
-    // ).then((response) => {
-    //     
-    //   setItems(response.data);
-    // });
+    getDocs(collection(db, "mens")).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setItems((prevState:any) => [...prevState, doc.data()]);
+      });
+    }).catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
   }, []);
 
-  // regex for color identification
-  const getColorChoices = (text:string) => {
-    const colormatches = text.match(colorregex); 
-    if(colormatches) {
-      return colormatches;
-    } 
-    return [];
-  }
+
+  // generate new items based on selection
+  const generateNew = (index:number) => {
+    const targetattributes = items[index].attributes;
+
+    items.forEach((item:any) => {
+      const itemattributes = item.attributes;
+      let score = 0;
+
+      for (const key in targetattributes) {
+        if (key in itemattributes) {
+          if (targetattributes[key] === itemattributes[key]) {
+            score++;
+          }
+        }
+      }
+      item.score = score;
+    });
+
+    const newitem = [...items].sort((a:any, b:any) => {
+      return b.score - a.score;
+    });
+
+    setItems(newitem);
+  };
 
   return (
     <>
@@ -56,16 +55,24 @@ export default function ItemSelection ({selectionFinished, gender, clothingType}
         <div className="flex flex-wrap justify-center">
           {
             items &&
-              items.results.map((item:any, index:number) => 
+              items.map((item:any, index:number) => 
                 <div key={index} className="card w-96 bg-base-100 shadow-xl m-5 hover:opacity-50"
                 onClick={() => {
-                  getColorChoices(item.productUrl);
+                  generateNew(index);
                 }}
               >
-                  <figure><img src={`https://m.media-amazon.com/images/I/${item.msaImageId}._AC_SR1472,1840_.jpg`} alt="Shoes" /></figure>
+                  <figure><img src={item.imageUrl} alt="Shoes" /></figure>
                   <div className="card-body">
-                    <h2 className="card-title">{item.productName}</h2>
-                    <p>{item.brandName}</p>
+                    <h2 className="card-title">{item.title}</h2>
+                    <p>{item.brand}</p>
+                    <div className="flex flex-row flex-wrap">
+                      {
+                        item.attributes &&
+                          item.attributes.map((item:any, index:number) =>
+                            <div key = {index} className="badge badge-neutral mr-1 mb-1">{item}</div>
+                          )
+                      }
+                    </div>
                   </div>
                 </div>
               )

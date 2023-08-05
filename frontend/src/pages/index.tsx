@@ -10,7 +10,6 @@ import ClothingResults from "./ClothingResults";
 
 export default function Home() {
   const [gender, setGender] = useState("Men");
-  const [clothingType, setClothingType] = useState("Shirts & Tops");
   const [showInitalSurvey, setShowInitialSurvey] = useState(true);
   const [showItemSelection, setShowItemSelection] = useState(false);
   const [showBodyMeasure, setShowBodyMeasure] = useState(false);
@@ -28,7 +27,6 @@ export default function Home() {
           showInitalSurvey &&
             <InitialSurvey surveyFinished={(data:any) => {
               setGender(data.gender);
-              setClothingType(data.clothingType);
               setShowInitialSurvey(false);
               setShowBodyMeasure(true);
             }}/>
@@ -47,8 +45,7 @@ export default function Home() {
               setShowFinalResults(true);
  
             }}
-            gender={gender}
-            clothingType={clothingType}/>
+            gender={gender}/>
         } 
         {
           showFinalResults &&
