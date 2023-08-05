@@ -5,8 +5,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Webcam from "react-webcam";
 import {useRef, useState} from "react";
-import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../utils/firestore";
+import axios from "axios";
 
 export default function BodyMeasure({measureFinished}:any) {
   const webCamRef = useRef<Webcam|null>(null);
@@ -17,7 +16,11 @@ export default function BodyMeasure({measureFinished}:any) {
       const imageSrc = webCamRef.current?.getScreenshot();
       if(imageSrc) {
         setImgSrc(imageSrc);
-        console.log(imageSrc); 
+        axios.post("http://127.0.0.1:5000/processimage", {
+          image: imageSrc
+        })
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
       }
       clearInterval(interval); 
     }, 5000);

@@ -1,4 +1,5 @@
-from flask import Flask, request, CORS
+from flask import Flask, request
+from flask_cors import CORS
 import numpy as np
 import base64
 app = Flask(__name__)
@@ -12,7 +13,9 @@ from shirtSize import proceess
 @app.route('/processimage', methods = ['POST'])
 def processimage():
     # get the image from the request
-    image = request.form.get('image')
+    image = str(request.get_json()['image'])
+    image = image.replace("data:image/jpeg;base64,", "")
+    print(image)
     with open("imageToSave.jpg", "wb") as fh:
         fh.write(base64.decodebytes(image.encode()))
     # convert the image to a numpy array
