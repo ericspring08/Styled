@@ -5,12 +5,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
-import {useEffect, useState} from "react";
-import {getDocs, collection} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { getDocs, collection } from "firebase/firestore";
 import { db } from "../utils/firestore";
+import Loading from "./Loading";
+import SquareLoader from "react-spinners/SquareLoader"
 
-export default function ItemSelection ({selectionFinished, gender}:any) {
+export default function ItemSelection({ selectionFinished, gender }: any) {
   const [items, setItems] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [imgload, setImgload] = useState<boolean>(false);
 
   // inital fetch of all items
   useEffect(() => {
@@ -18,15 +22,19 @@ export default function ItemSelection ({selectionFinished, gender}:any) {
     if (localStorage.getItem(gender + "items")) {
       console.log("items already in local storage");
       setItems(JSON.parse(localStorage.getItem(gender + "items") ?? "{}"));
+      setLoading(false)
       return;
-    } 
+    }
     console.log("fetching items from firestore");
     getDocs(collection(db, gender)).then((querySnapshot) => {
       // store in local storage
       localStorage.setItem(gender + "items", JSON.stringify(querySnapshot.docs.map((doc) => doc.data())));
       querySnapshot.forEach((doc) => {
-        setItems((prevState:any) => [...prevState, doc.data()]);
+        setItems((prevState: any) => [...prevState, doc.data()]);
       });
+
+    }).then(() => {
+      setLoading(false)
     }).catch((error) => {
       console.log("Error getting documents: ", error);
     });
@@ -34,10 +42,10 @@ export default function ItemSelection ({selectionFinished, gender}:any) {
 
 
   // generate new items based on selection
-  const generateNew = (index:number) => {
+  const generateNew = (index: number) => {
     const targetattributes = items[index].attributes;
 
-    items.forEach((item:any) => {
+    items.forEach((item: any) => {
       const itemattributes = item.attributes;
       let score = 0;
 
@@ -51,7 +59,7 @@ export default function ItemSelection ({selectionFinished, gender}:any) {
       item.score = score;
     });
 
-    const newitem = [...items].sort((a:any, b:any) => {
+    const newitem = [...items].sort((a: any, b: any) => {
       return b.score - a.score;
     });
 
@@ -60,36 +68,53 @@ export default function ItemSelection ({selectionFinished, gender}:any) {
 
   return (
     <>
-      <h1 className="text-6xl m-10 text-center">Pick the Styles You Like!</h1> 
-        <div className="flex flex-wrap justify-center">
-          {
-            items &&
-              items.map((item:any, index:number) => 
-                <div key={index} className="card w-96 bg-base-100 shadow-xl m-5 hover:opacity-50"
-                onClick={() => {
-                  generateNew(index);
-                }}
-              >
-                  <figure><img src={item.imageUrl} alt="Shoes" /></figure>
-                  <div className="card-body">
-                    <h2 className="card-title">{item.title}</h2>
-                    <p>{item.brand}</p>
-                    <div className="flex flex-row flex-wrap">
-                      {
-                        item.attributes &&
-                          item.attributes.map((item:any, index:number) =>
-                            <div key = {index} className="badge badge-primary mr-1 mb-1">{item}</div>
+      {
+        loading ? <Loading /> :
+          <>
+            <h1 className="text-6xl m-10 text-center">Pick the Styles You Like!</h1>
+            <div className="flex flex-wrap justify-center">
+              {
+                items &&
+                items.map((item: any, index: number) =>
+                  <div key={index} className="card w-96 bg-base-100 shadow-xl m-5 hover:opacity-50"
+                    onClick={() => {
+                      generateNew(index);
+                    }}
+                  >
+                    <figure>
+                      <SquareLoader 
+                        color={`hsl(var(--p))`}
+                        loading={!imgload}
+                        size={50}
+                      />
+                      <img src={item.imageUrl} className={imgload ? "" : "hidden"} onLoad={() => {
+                        setImgload(true)
+                        console.log(index)
+                      }} alt="Shoes" />
+                    </figure>
+                    <div className="card-body">
+                      <h2 className="card-title">{item.title}</h2>
+                      <p>{item.brand}</p>
+                      <div className="flex flex-row flex-wrap">
+                        {
+                          item.attributes &&
+                          item.attributes.map((item: any, index: number) =>
+                            <div key={index} className="badge badge-primary mr-1 mb-1">{item}</div>
                           )
-                      }
+                        }
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-          }
-        </div>
-      <button onClick={() => {
-        selectionFinished();
-      }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
+                )
+              }
+            </div>
+            <button onClick={() => {
+              selectionFinished({
+                items: items.slice(0, 100)
+              });
+            }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
+          </>
+      }
     </>
   )
 }

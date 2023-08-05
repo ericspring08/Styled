@@ -14,6 +14,7 @@ export default function Home() {
   const [showItemSelection, setShowItemSelection] = useState(false);
   const [showBodyMeasure, setShowBodyMeasure] = useState(false);
   const [showFinalResults, setShowFinalResults] = useState(false);
+  const [finalItems, setFinalItems] = useState(null)
 
   return (
     <>
@@ -40,16 +41,17 @@ export default function Home() {
         }
         {
           showItemSelection &&
-            <ItemSelection selectionFinished={() => {
+            <ItemSelection selectionFinished={(items:any) => {
               setShowItemSelection(false);
               setShowFinalResults(true);
- 
+              console.log(items.items)
+              setFinalItems(items.items)
             }}
             gender={gender}/>
         } 
         {
           showFinalResults &&
-            <ClothingResults/>
+            <ClothingResults items={finalItems}/>
         }
       </main>
     </>
