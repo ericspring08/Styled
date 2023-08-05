@@ -5,57 +5,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Webcam from "react-webcam";
 import {useRef, useState} from "react";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../utils/firestore";
 
 export default function BodyMeasure({measureFinished}:any) {
   const webCamRef = useRef<Webcam|null>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
-  const [circles, setCircles] = useState<any[]>([]);
 
   const capture = () => {
     const interval = setInterval(() => {
       const imageSrc = webCamRef.current?.getScreenshot();
       if(imageSrc) {
         setImgSrc(imageSrc);
+        console.log(imageSrc); 
       }
       clearInterval(interval); 
     }, 5000);
   }
-
-  const getClickCoords = (event: { target: any; clientX: number; clientY: number; }) => {
-    // from: https://stackoverflow.com/a/29296049/14198287
-    const e = event.target;
-    const dim = e.getBoundingClientRect();
-    const x = event.clientX - dim.left;
-    const y = event.clientY - dim.top;
-    return [x, y];
-  };
-
-  const addCircle = (event: any) => {
-    // get click coordinates
-    const [x, y] = getClickCoords(event);
-
-    // make new svg circle element
-    // more info here: https://www.w3schools.com/graphics/svg_circle.asp
-    const newCircle = (
-      <circle
-        key={circles.length + 1}
-        cx={x}
-        cy={y}
-        r="20"
-        stroke="black"
-        strokeWidth="1"
-        fill="red"
-      />
-    );
-
-    // update the array of circles; you HAVE to spread the current array
-    // as 'circles' is immutible and will not accept new info
-    const allCircles = [...circles, newCircle];
-
-    // update 'circles'
-    setCircles(allCircles);
-  };
-
 
   return (
     <>
@@ -63,10 +29,7 @@ export default function BodyMeasure({measureFinished}:any) {
       <Webcam height={600} ref={webCamRef}></Webcam>
       <button onClick={capture} className="btn btn-primary">Take Photo</button>
       {imgSrc && (
-        <img src={imgSrc} alt="User" onClick={(event) => {
-          event.preventDefault();
-          addCircle(event);
-        }} />
+        <img src={imgSrc} alt="User" />
       )}
       <button onClick={() => {
         measureFinished();
@@ -74,7 +37,3 @@ export default function BodyMeasure({measureFinished}:any) {
     </>
   )
 }
-function getClickCoords(event: any): [any, any] {
-  throw new Error("Function not implemented.");
-}
-
