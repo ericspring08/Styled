@@ -87,7 +87,7 @@ export default function ItemSelection({ selectionFinished, gender }: any) {
               <li className="step step-primary">Clothing Selection</li>
               <li className="step">Final Selection</li>
             </ul>
-            <div className="mt-10">
+            <div className="mt-10 flex flex-col items-center">
               <h1 className="text-6xl m-10">Pick the Styles You Like!</h1>
               <div className="flex flex-wrap justify-center">
                 {
