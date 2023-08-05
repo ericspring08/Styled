@@ -5,16 +5,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Webcam from "react-webcam";
 import {useRef, useState} from "react";
+import SquareLoader from "react-spinners/SquareLoader";
 import axios from "axios";
 
 export default function BodyMeasure({measureFinished}:any) {
   const webCamRef = useRef<Webcam|null>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [size, setSize] = useState<string|null>(null);
+  const [sizeIsLoading, setSizeIsLoading] = useState(false);
 
   const capture = () => {
     const interval = setInterval(() => {
       const imageSrc = webCamRef.current?.getScreenshot();
+      setSizeIsLoading(true);
+      setSize(null);
       if(imageSrc) {
         setImgSrc(imageSrc);
         axios.post("https://processshirtsize.onrender.com/processimage", {
@@ -35,7 +39,9 @@ export default function BodyMeasure({measureFinished}:any) {
             setSize("XXXL");
           }
         })
-          .catch((err) => console.log(err));
+        .then(() => {
+          setSizeIsLoading(false);
+        }).catch((err) => console.log(err));
       }
       clearInterval(interval); 
     }, 3000);
@@ -49,6 +55,11 @@ export default function BodyMeasure({measureFinished}:any) {
       {imgSrc && (
         <img src={imgSrc} alt="User" />
       )}
+      <SquareLoader
+          color={`hsl(var(--p))`}
+          loading={sizeIsLoading}
+          size={50}
+        />
       {
         size && (
           <h1 className="text-4xl">Size: {size}</h1>
