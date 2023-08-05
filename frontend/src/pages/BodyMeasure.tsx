@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Webcam from "react-webcam";
 import { useRef, useState } from "react";
-import { SquareLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 import axios from "axios";
 
 export default function BodyMeasure({ measureFinished }: any) {
@@ -56,39 +56,45 @@ export default function BodyMeasure({ measureFinished }: any) {
   return (
     <>
       <div className="flex flex-col justify-center items-center h-screen w-screen">
-        {
-          !imgSrc && 
-            <Webcam height={600} ref={webCamRef}></Webcam>
-        }
-        
-        <SquareLoader
-          color={`hsl(var(--p))`}
-          loading={sizeIsLoading}
-          size={50}
-        />
-        {imgSrc && (
-          <img src={imgSrc} alt="User" />
-        )}
-        <dialog id="my_modal_1" className="modal">
-          <form method="dialog" className="flex flex-col modal-box items-center">
-            <h3 className="font-bold text-2xl">You are a size</h3>
-            <p className="text-6xl">{size ?? 0}</p>
-            <div className="modal-action">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </div>
-          </form>
-        </dialog>
-        <button onClick={capture} className="btn btn-primary" disabled={imgSrc != null}>Take Photo</button>
-        <ul className="steps fixed z-90 top-10 item-center">
+        <ul className="steps fixed z-[90] top-10 item-center">
           <li className="step step-primary">Inital Survey</li>
           <li className="step step-primary">Body Measurements</li>
           <li className="step">Clothing Selection</li>
           <li className="step">Final Selection</li>
-        </ul> 
-        <button onClick={() => {
-          measureFinished();
-        }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
+        </ul>
+        <div className="flex flex-col items-center mt-[7rem]">
+          <h2>Take a waist-up photo of yourself. Stand up as straight as possible.</h2>
+          <h2>Once you click "take photo", it will start a 3 second timer. Please remain still until the image is taken.</h2>
+          {
+            !imgSrc &&
+            <Webcam height={600} ref={webCamRef}></Webcam>
+          }
+
+          {imgSrc && (
+            <img src={imgSrc} alt="User" />
+          )}
+          <dialog id="my_modal_1" className="modal">
+            <form method="dialog" className="flex flex-col modal-box items-center">
+              <h3 className="font-bold text-2xl">You are a size</h3>
+              <p className="text-6xl">{size ?? 0}</p>
+              <div className="modal-action">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
+              </div>
+            </form>
+          </dialog>
+          <button onClick={capture} className="btn btn-primary mt-5" disabled={imgSrc != null}>
+            {
+              !imgSrc ? "Take Photo" : <BarLoader
+                color={`hsl(var(--p))`}
+                loading={sizeIsLoading}
+              />
+            }
+          </button>
+          <button onClick={() => {
+            measureFinished();
+          }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
+        </div>
       </div>
     </>
   )
