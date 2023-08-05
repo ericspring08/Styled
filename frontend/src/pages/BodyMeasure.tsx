@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -6,7 +7,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Webcam from "react-webcam";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { SquareLoader } from "react-spinners";
 import axios from "axios";
 
@@ -15,16 +16,6 @@ export default function BodyMeasure({ measureFinished }: any) {
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
   const [sizeIsLoading, setSizeIsLoading] = useState(false);
-  const [loading, setLoading] = useState<boolean>(true)
-  const [camera, setCamera] = useState<boolean>(false)
-
-  useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-      if (stream.getVideoTracks().length > 0) {
-        setCamera(true)
-      }
-    })
-  }, [navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => { stream.getVideoTracks().length })])
 
   const capture = () => {
     const interval = setInterval(() => {
@@ -64,44 +55,41 @@ export default function BodyMeasure({ measureFinished }: any) {
 
   return (
     <>
-      {
-        !camera ? <h1>Please Allow Camera Access!</h1> :
-          <div className="flex flex-col justify-center items-center h-screen w-screen">
-            {
-              !imgSrc && 
-                <Webcam height={600} ref={webCamRef}></Webcam>
-            }
-            
-            <SquareLoader
-              color={`hsl(var(--p))`}
-              loading={sizeIsLoading}
-              size={50}
-            />
-            {imgSrc && (
-              <img src={imgSrc} alt="User" />
-            )}
-            <dialog id="my_modal_1" className="modal">
-              <form method="dialog" className="flex flex-col modal-box items-center">
-                <h3 className="font-bold text-2xl">You are a size</h3>
-                <p className="text-6xl">{size ?? 0}</p>
-                <div className="modal-action">
-                  {/* if there is a button in form, it will close the modal */}
-                  <button className="btn">Close</button>
-                </div>
-              </form>
-            </dialog>
-            <button onClick={capture} className="btn btn-primary" disabled={imgSrc != null}>Take Photo</button>
-            <ul className="steps fixed z-90 top-10 item-center">
-              <li className="step step-primary">Inital Survey</li>
-              <li className="step step-primary">Body Measurements</li>
-              <li className="step">Clothing Selection</li>
-              <li className="step">Final Selection</li>
-            </ul> 
-            <button onClick={() => {
-              measureFinished();
-            }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
-          </div>
-      }
+      <div className="flex flex-col justify-center items-center h-screen w-screen">
+        {
+          !imgSrc && 
+            <Webcam height={600} ref={webCamRef}></Webcam>
+        }
+        
+        <SquareLoader
+          color={`hsl(var(--p))`}
+          loading={sizeIsLoading}
+          size={50}
+        />
+        {imgSrc && (
+          <img src={imgSrc} alt="User" />
+        )}
+        <dialog id="my_modal_1" className="modal">
+          <form method="dialog" className="flex flex-col modal-box items-center">
+            <h3 className="font-bold text-2xl">You are a size</h3>
+            <p className="text-6xl">{size ?? 0}</p>
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </div>
+          </form>
+        </dialog>
+        <button onClick={capture} className="btn btn-primary" disabled={imgSrc != null}>Take Photo</button>
+        <ul className="steps fixed z-90 top-10 item-center">
+          <li className="step step-primary">Inital Survey</li>
+          <li className="step step-primary">Body Measurements</li>
+          <li className="step">Clothing Selection</li>
+          <li className="step">Final Selection</li>
+        </ul> 
+        <button onClick={() => {
+          measureFinished();
+        }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
+      </div>
     </>
   )
 }
