@@ -4,13 +4,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Webcam from "react-webcam";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 
 export default function BodyMeasure({measureFinished}:any) {
   const webCamRef = useRef<Webcam|null>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [size, setSize] = useState<string|null>(null);
+  const [loading, setLoading] = useState<boolean>(true)
+  const [camera, setCamera] = useState<boolean>(false)
+
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+      if (stream.getVideoTracks().length > 0) {
+        console.log("hello")
+      }
+    })
+  }, [navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => { stream.getVideoTracks().length })])
 
   const capture = () => {
     const interval = setInterval(() => {

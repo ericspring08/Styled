@@ -45,7 +45,7 @@ export default function ItemSelection({ selectionFinished, gender }: any) {
   const generateNew = (index: number) => {
     const targetattributes = items[index].attributes;
 
-    items.forEach((item: any) => {
+    items.forEach((item: any, index2: number) => {
       const itemattributes = item.attributes;
       let score = 0;
 
@@ -56,11 +56,21 @@ export default function ItemSelection({ selectionFinished, gender }: any) {
           }
         }
       }
+
+      if (index2 < index) {
+        if (!item.visited) {
+          item.visited = 1;
+        } else {
+          item.visited++;
+        }
+        console.log(item)
+      }
+
       item.score = score;
     });
 
     const newitem = [...items].sort((a: any, b: any) => {
-      return b.score - a.score;
+      return (b.score - b.visited) - (a.score - a.visited);
     });
 
     setItems(newitem);
@@ -89,7 +99,6 @@ export default function ItemSelection({ selectionFinished, gender }: any) {
                       />
                       <img src={item.imageUrl} className={imgload ? "" : "hidden"} onLoad={() => {
                         setImgload(true)
-                        console.log(index)
                       }} alt="Shoes" />
                     </figure>
                     <div className="card-body">
