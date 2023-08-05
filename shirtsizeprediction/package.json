@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "flask-cors": "^0.0.1"
+  }
+}
