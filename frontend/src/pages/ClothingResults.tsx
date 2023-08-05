@@ -15,20 +15,7 @@ export default function ClothingResults({ items }: any) {
   const [list, setList] = useState<any>(items)
   const [sort, setSort] = useState<string>("rel")
   const rating = (stars: number) => {
-    let result = stars
-    while (stars > 1) {
-      stars--
-    }
-    if (stars > 0.7) {
-      result -= stars
-      result += 1
-    } else if (stars <= 0.7 && stars >= 0.3) {
-      result -= stars
-      result += 0.5
-    } else if (stars < 0.3) {
-      result -= stars
-    }
-    return result * 2
+    return Math.round(stars)
   }
 
   useEffect(() => {
@@ -80,7 +67,6 @@ export default function ClothingResults({ items }: any) {
           <select className="select select-bordered" onChange={(e) => {
             e.preventDefault()
             setSort(e.target.value)
-            console.log(e.target.value)
           }}>
             <option value="rel">Relevance</option>
             <option value="asc">Price Ascending</option>
@@ -100,8 +86,7 @@ export default function ClothingResults({ items }: any) {
               displayRating.push("No rating")
             } else {
               for (let i = 0; i < stars; i++) {
-                let toggle = (i % 2) + 1
-                displayRating.push(<input disabled type="radio" name="rating-10" className={`bg-green-500 mask mask-star-2 mask-half-${toggle}`} />)
+                displayRating.push(<input disabled type="radio" name="rating-5" className="bg-green-500 mask mask-star-2" />)
               }
             }
 
@@ -124,7 +109,7 @@ export default function ClothingResults({ items }: any) {
                 <div className="card-body">
                   <h1 className="card-title">{item.title}</h1>
                   <h2>{item.price}</h2>
-                  <div className="rating rating-md rating-half">
+                  <div className="rating rating-lg rating-half">
                     {displayRating.map((element, index) =>
                       <Fragment key={index}>
                         {element}
