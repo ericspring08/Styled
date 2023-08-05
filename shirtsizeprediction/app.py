@@ -22,7 +22,3 @@ def processimage():
     prediction = proceess()
     # return the prediction
     return str(prediction)
-
-# run the app
-if __name__ == '__main__':
-    app.run(debug = True)
