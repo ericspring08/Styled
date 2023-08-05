@@ -13,13 +13,11 @@ from shirtSize import proceess
 @app.route('/processimage', methods = ['POST'])
 def processimage():
     # get the image from the request
-    image = str(request.get_json()['image'])
-    image = image.replace("data:image/jpeg;base64,", "")
+    image = request.get_json()['image']
     print(image)
+    image = image.replace('data:image/webp;base64,', '')
     with open("imageToSave.jpg", "wb") as fh:
         fh.write(base64.decodebytes(image.encode()))
-    # convert the image to a numpy array
-    image = np.array(image[23:])
     # get the prediction
     prediction = proceess()
     # return the prediction

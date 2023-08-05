@@ -33,8 +33,6 @@ import matplotlib.pyplot as plt
 
 def proceess():
         image = cv.imread("imageToSave.jpg")
-        print(type(image))
-
 
         # In[3]:
 
