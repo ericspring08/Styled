@@ -37,7 +37,7 @@ export const env = createEnv({
     NEXT_PUBLIC_PROJECT_ID: process.env.projectId,
     NEXT_PUBLIC_STORAGE_BUCKET: process.env.storageBucket,
     NEXT_PUBLIC_MESSAGING_SENDER_ID:
-      process.env.messengerSenderId,
+      process.env.messagingSenderId,
     NEXT_PUBLIC_APP_ID: process.env.appId,
     NEXT_PUBLIC_MEASUREMENT_ID: process.env.measurementId,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
