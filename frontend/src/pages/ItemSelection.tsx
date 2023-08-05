@@ -14,7 +14,16 @@ export default function ItemSelection ({selectionFinished}:any) {
 
   // inital fetch of all items
   useEffect(() => {
+    // check if already in local storage
+    if (localStorage.getItem("items")) {
+      console.log("items already in local storage");
+      setItems(JSON.parse(localStorage.getItem("items") ?? "{}"));
+      return;
+    } 
+    console.log("fetching items from firestore");
     getDocs(collection(db, "mens")).then((querySnapshot) => {
+      // store in local storage
+      localStorage.setItem("items", JSON.stringify(querySnapshot.docs.map((doc) => doc.data())));
       querySnapshot.forEach((doc) => {
         setItems((prevState:any) => [...prevState, doc.data()]);
       });
