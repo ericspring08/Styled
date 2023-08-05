@@ -17,7 +17,7 @@ export default function BodyMeasure({measureFinished}:any) {
       const imageSrc = webCamRef.current?.getScreenshot();
       if(imageSrc) {
         setImgSrc(imageSrc);
-        axios.post("http://127.0.0.1:5000/processimage", {
+        axios.post("https://processshirtsize.onrender.com/processimage", {
           image: imageSrc
         })
         .then((res) => {
