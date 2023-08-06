@@ -20,6 +20,8 @@ The recommmendation algorithm uses a content recommendation algorithm approach. 
 <img src="/Assets/Attributes.png"/>
 Items will share these attributes. The algorithm uses this fact to sort the reccomendations by a "score" value. Every time a user clicks on a item, the number of shared attributes is found between that selected item and the iterated item. The number of shared attributes is added to that items "score" which can determine how relevant and appealing that item is the to user. Over time the algorithm hopes to filter down and identify the types of clothing the user likes.
 <img src="/Assets/Algorithm.png"/>
+Below is a formal representation of our formula.
+<img src="/Assets/Formula.png"/>
 
 ### Collecting Data
 For any large recommendation model, large amounts of data must be obtained. To obtain data on clothing, we used the Zappos Rapid Api. 
