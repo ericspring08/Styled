@@ -202,9 +202,9 @@ def proceess():
 
         # value
         ans = 0
-        for i in range(0,8):
+        for i in range(Yhat.shape[0]):
                 ans += Yhat[i][0]
-        ans = ans/8
+        ans = ans/Yhat.shape[0]
         print(Yhat)
         print(ans)
         return ans
