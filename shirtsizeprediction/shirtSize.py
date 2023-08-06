@@ -201,5 +201,10 @@ def proceess():
         Yhat=clf.predict(predict_)
 
         # value
-        print(Yhat[0][0])
-        return Yhat[0][0]
+        ans = 0
+        for i in range(0,8):
+                ans += Yhat[i][0]
+        ans = ans/8
+        print(Yhat)
+        print(ans)
+        return ans
