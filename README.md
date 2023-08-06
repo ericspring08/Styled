@@ -1,4 +1,4 @@
-<img src="/banner.png" />
+<img src="/Assets/banner.png" />
 
 # Styled - A fully featured platform that detects clothing size and continuously recommends clothing tailored to the users liking
 ## 💡 The Why and What?
