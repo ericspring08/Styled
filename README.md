@@ -8,15 +8,18 @@ Online shopping and in paticular, online clothing shopping, is becoming an incre
 ### 📏👕 Measure Shirt Size
 To measure shirt size, we utilized a artificial intelligent library that can find the length of the shoulders. We use this value to determine the letter value by different intervals.
 
-![Screenshot 2023-08-05 at 7 57 08 PM](https://github.com/ericspring08/United-Hacks/assets/69996843/14b38e1f-2dfd-40f3-b8b7-bf9986c80e51)
-![Screenshot 2023-08-05 at 7 54 21 PM](https://github.com/ericspring08/United-Hacks/assets/69996843/abe282ac-24ce-4a89-8636-8a0f82588be3)
+<img src="/Assets/AI.png"/>
 All images are taken by the react webcam library, which is in the format of base64 string. This string is send via a POST request to a flask server. On the flask server the base64 string is downloaded as a jpg and passed into the opencv model which determines chest size. This chest size is then passed back to the frontend where it is shown to the user by its letter value.
+
+<img src="/Assets/AI2.png"/>
+
 
 ### Recommendation Algorithm
 The recommmendation algorithm uses a content recommendation algorithm approach. Every item has "attributes" which are traits of the clothing.
 
-![Screenshot 2023-08-05 at 8 05 41 PM](https://github.com/ericspring08/United-Hacks/assets/69996843/fe251dd9-3362-445f-a6cb-e354d0d1ce54)
+<img src="/Assets/Attributes.png"/>
 Items will share these attributes. The algorithm uses this fact to sort the reccomendations by a "score" value. Every time a user clicks on a item, the number of shared attributes is found between that selected item and the iterated item. The number of shared attributes is added to that items "score" which can determine how relevant and appealing that item is the to user. Over time the algorithm hopes to filter down and identify the types of clothing the user likes.
+<img src="/Assets/Algorithm.png"/>
 
 ### Collecting Data
 For any large recommendation model, large amounts of data must be obtained. To obtain data on clothing, we used the Zappos Rapid Api. 
@@ -25,10 +28,11 @@ We gather more data using webscraping, utilizing the library Puppeteer, visiting
 
 ### Frontend and UI
 The frontend is built with Next.js and Tailwindcss(DaisyUI). We utilized React-Webcam to access the camera. All data pulled from the Firebase Firestore database is cached to localstorage to prevent excess reads. 
-![image](https://github.com/ericspring08/United-Hacks/assets/69996843/53419e9a-f837-4400-af19-3c5211643503)
-![image](https://github.com/ericspring08/United-Hacks/assets/69996843/ed622e8d-3bdb-4b7f-93f4-3ab40f2a2ae0)
-![image](https://github.com/ericspring08/United-Hacks/assets/69996843/30a2098b-4781-48bb-beec-299d47ce381e)
-![image](https://github.com/ericspring08/United-Hacks/assets/69996843/8b907164-ae11-458a-87c1-a5d851efd939)
+
+<img src="/Assets/Demo1.png"/>
+<img src="/Assets/Demo2.png"/>
+<img src="/Assets/Demo3.png"/>
+<img src="/Assets/Demo4.png"/>
 
 ## Challenges
 * The artificial intelligence model was quite difficult to get up and running because of the difficulty in transfering image files from the frontend to backend. The base64 encoding has a specific javascript prefix which makes the image invalid. This prefix must be removed before converting to a jpg.
