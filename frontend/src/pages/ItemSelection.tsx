@@ -63,10 +63,13 @@ export default function ItemSelection({ selectionFinished, gender }: any) {
         } else {
           item.visited++;
         }
-        console.log(item)
       }
 
-      item.score = score;
+      if (item.score) {
+        item.score += score
+      } else {
+        item.score = score
+      }
     });
 
     const newitem = [...items].sort((a: any, b: any) => {
@@ -128,7 +131,7 @@ export default function ItemSelection({ selectionFinished, gender }: any) {
                 selectionFinished({
                   items: items.slice(0, 100)
                 });
-              }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
+              }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl">Continue</button>
             </div>
           </div>
       }

@@ -29,7 +29,7 @@ export default function InitialSurvey ({surveyFinished}:any) {
           surveyFinished({
               gender: gender,
           })
-        }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl hover:drop-shadow-2xl hover:animate-bounce duration-300">Continue</button>
+        }} className="fixed z-90 bottom-10 right-8 btn btn-primary drop-shadow-lg text-3xl">Continue</button>
       </main>
     </>
   )

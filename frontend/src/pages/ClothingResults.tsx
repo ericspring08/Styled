@@ -19,7 +19,11 @@ export default function ClothingResults({ items }: any) {
   }
 
   useEffect(() => {
-    const newList = items.filter((item: any) => item.title.includes(query) || item.brand.includes(query))
+    window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
+    const newList = items.filter((item: any) => item.title.toLowerCase().includes(query.toLowerCase()) || item.brand.toLowerCase().includes(query.toLowerCase()))
     setList(newList)
   }, [query])
 

@@ -5,7 +5,7 @@ const womens = require("./womens.json")
 const descriptions = require("./womensdescription.json")
 const womansattributes = require("./womensattributes.json")
 
-/* let jsonData = []
+let jsonData = []
 
 async function Scrape() {
     const browser = await puppeteer.launch({
@@ -36,9 +36,9 @@ async function Scrape() {
 Scrape().then(() => {
     jsonData = JSON.stringify(jsonData)
     fs.writeFileSync("./womensdescription.json", jsonData)
-}) */
+})
 
-/* let data = []
+let data = []
 descriptions.map((description, index) => {
     let traits = []
     for (let i = 0; i < attributes.length; i++) {
@@ -51,7 +51,7 @@ descriptions.map((description, index) => {
 })
 
 data = JSON.stringify(data)
-fs.writeFileSync("./womensattributes.json", data) */
+fs.writeFileSync("./womensattributes.json", data)
 
 let firesotreData = []
 for (let i = 0; i < womansattributes.length; i++) {
