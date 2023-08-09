@@ -55,3 +55,5 @@ The frontend is built with Next.js and Tailwindcss(DaisyUI). We utilized React-W
 ## Authors
 * Eric Zhang - ericspring08@gmail.com
 * Jeff Zhou - jeff.k.zhou@gmail.com
+
+## United Hacks 2023 1st Place - General Track Winner
